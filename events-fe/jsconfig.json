@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/configs/*":["configs/*"]
+    }
+  }
+}
+
+// module aliases with jsconfig
