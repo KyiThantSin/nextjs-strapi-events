@@ -4,7 +4,8 @@
   "info": {
     "singularName": "event",
     "pluralName": "events",
-    "displayName": "Events"
+    "displayName": "Events",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,7 +17,8 @@
       "required": true
     },
     "venue": {
-      "type": "string"
+      "type": "string",
+      "required": false
     },
     "address": {
       "type": "string",
@@ -34,14 +36,15 @@
       "required": true
     },
     "url": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "user": {
       "type": "relation",

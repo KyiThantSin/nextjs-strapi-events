@@ -7,7 +7,6 @@ export const GET_EVENT = gql`
         id
         attributes {
           name
-          slug
           venue
           address
           date

@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const CREATE_EVENT = gql`
   mutation (
     $name: String!
-    $slug: String
     $venue: String!
     $address: String!
     $date: Date
@@ -15,7 +14,6 @@ export const CREATE_EVENT = gql`
     createEvent(
       data: {
         name: $name
-        slug: $slug
         venue: $venue
         address: $address
         date: $date
@@ -29,7 +27,6 @@ export const CREATE_EVENT = gql`
         id
         attributes {
           name
-          slug
           venue
           address
           date
@@ -54,7 +51,6 @@ export const UPDATE_EVENT = gql`
   mutation (
     $id: ID!
     $name: String!
-    $slug: String
     $venue: String!
     $address: String!
     $date: Date
@@ -67,7 +63,6 @@ export const UPDATE_EVENT = gql`
       id: $id
       data: {
         name: $name
-        slug: $slug
         venue: $venue
         address: $address
         date: $date

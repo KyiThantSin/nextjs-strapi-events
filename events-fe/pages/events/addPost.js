@@ -50,7 +50,7 @@ const addPost = () => {
 
   const formatDate = (value) => {
     let format = value.toLocaleDateString().split("/");
-    let dateFormat = `${format[2]}-${format[1]}-${format[0]}`;
+    let dateFormat = `${format[2]}-${format[0].length > 1 ? format[0] : '0'+format[0]}-${format[1]}`;
     return dateFormat;
   };
 
@@ -66,7 +66,16 @@ const addPost = () => {
   //   const result = await response.json();
   //   setImageUrl({ data: { attributes: { url: result[0].url } } });
   // };
-
+  console.log("new", {
+    name: name,
+    venue: venue,
+    address: address,
+    performers: performers,
+    date: formatDate(startDate),
+    time:'',
+    description: desc,
+    url: { data: { attributes: { url: "" } } },
+  })
   const onSubmit = async () => {
     setNewEvent({
       name: name,
