@@ -25,7 +25,7 @@ export default function Layout({ title, description, children }) {
 
 Layout.defaultProps = {
   title: "Vamos | Topic Board",
-  description: "Find popular events near you",
+  description: "Provide informations for the organization",
 };
 
 const styles = {

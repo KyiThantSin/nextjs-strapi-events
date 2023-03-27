@@ -15,6 +15,7 @@ export default async (res, req) => {
     });
     //console.log(req.body);
     const data = await strapiRes.json();
+    console.log("jwt",data?.jwt)
     if (strapiRes.ok) {
       //set-cookies
       res.status(200).json({ user: data.user });
