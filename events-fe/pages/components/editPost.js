@@ -44,9 +44,9 @@ const EditPost = ({ editModal, setEditModal }) => {
   const imageHandler = async (value) => {
     const formData = new FormData();
     formData.append("files", value);
-    formData.append("ref",'events');
-    formData.append("refId",editModal?.id)
-    formData.append("field","image")
+    // formData.append("ref",'events');
+    // formData.append("refId",editModal?.id)
+    // formData.append("field","image")
     //send to the strapi to get the url
     const response = await fetch(`${API_URL}/api/upload`, {
       method: "POST",
@@ -54,7 +54,7 @@ const EditPost = ({ editModal, setEditModal }) => {
       body: formData,
     });
     const result = await response.json();
-    console.log(result)
+    console.log("res",result)
     setImageUrl({ data: { attributes: { url: result[0]?.url } } })
   };
 
