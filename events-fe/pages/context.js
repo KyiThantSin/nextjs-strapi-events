@@ -49,6 +49,7 @@ function Context({ children }) {
         eventLists,
         setEventLists,
         Login,
+        logOut,
         user,
         error,
       }}>

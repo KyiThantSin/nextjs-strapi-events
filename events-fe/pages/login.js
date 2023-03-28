@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
+import { IoEyeOutline } from "react-icons/io5";
+import { RiEyeCloseLine } from "react-icons/ri";
 import { Button } from "reactstrap";
 import Layout from "./components/Layout";
 import { ContextValue } from "./context";
@@ -11,6 +13,7 @@ const login = () => {
   const { Login, error } = useContext(ContextValue);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -18,13 +21,13 @@ const login = () => {
     }
   }, [error]);
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(email && password){
-      console.log("this",email,password)
-      Login({email,password})
+    if (email && password) {
+      console.log("this", email, password);
+      Login({ email, password });
     }
-  }
+  };
   return (
     <Layout>
       <ToastContainer
@@ -53,16 +56,23 @@ const login = () => {
           </div>
           <div css={styles.box}>
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div class="password-input-container">
+              <input
+                type={open ? "text" : "password"}
+                required
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span class="password-icon">
+                {open ? (
+                  <IoEyeOutline size={20} onClick={() => setOpen(false)} />
+                ) : (
+                  <RiEyeCloseLine size={20} onClick={() => setOpen(true)} />
+                )}
+              </span>
+            </div>
           </div>
-          <Button
-            className="mb-5 mt-4"
-            color="primary"
-            onClick={handleSubmit}>
+          <Button className="mb-5 mt-4" color="primary" onClick={handleSubmit}>
             Login
           </Button>
         </form>
@@ -106,6 +116,20 @@ const styles = {
       border-radius: 4px;
       border: 1px solid lightgrey;
       box-shadow: 0px;
+    }
+    .password-input-container {
+      position: relative;
+    }
+    .password-icon {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      background-image: url("path/to/icon.png");
+      background-repeat: no-repeat;
+      background-size: contain;
     }
   `,
 };

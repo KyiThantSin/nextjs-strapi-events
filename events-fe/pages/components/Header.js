@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RiMoonClearFill, RiMoonClearLine } from "react-icons/ri";
 import { useContext } from "react";
 import { ContextValue } from "pages/context";
+import { Button } from "reactstrap";
 
 const Header = () => {
   const contextValue = useContext(ContextValue);
@@ -28,15 +29,30 @@ const Header = () => {
             onClick={() => contextValue.setTheme(true)}
           />
         )}
-        <Link href="/events" css={styles.linkStyle(contextValue.theme)} className="ms-3">
+        <Link
+          href="/events"
+          css={styles.linkStyle(contextValue.theme)}
+          className="ms-3">
           Events
         </Link>
-        <Link href="/events/addPost" css={styles.linkStyle(contextValue.theme)} className="ms-2">
+        <Link
+          href="/events/addPost"
+          css={styles.linkStyle(contextValue.theme)}
+          className="ms-2">
           Add Events
         </Link>
-        <Link href="/login" css={styles.linkStyle(contextValue.theme)} className="ms-2">
-          Login
-        </Link>
+        {contextValue?.user ? (
+          <Link
+            href="/login"
+            css={styles.linkStyle(contextValue.theme)}
+            className="ms-2">
+            Login
+          </Link>
+        ) : (
+          <Button color="primary" outline className="ms-2" onClick={() => contextValue.logOut()}>
+            Log Out
+          </Button>
+        )}
       </span>
     </div>
   );
@@ -45,7 +61,7 @@ export default Header;
 
 const styles = {
   navbar: (theme) => css`
-    background-color: ${ theme ? '#ffffff':'#191919' };
+    background-color: ${theme ? "#ffffff" : "#191919"};
     font-size: 1.2rem;
     display: flex;
     flex-direction: row;
@@ -58,16 +74,15 @@ const styles = {
       height: auto;
     }
   `,
-  linkStyle: (theme) =>  css`
+  linkStyle: (theme) => css`
     text-decoration: none;
-    color: ${ theme ? '#1a1a1a' :'#ffffff'};
+    color: ${theme ? "#1a1a1a" : "#ffffff"};
     font-size: 1.2rem;
     font-weight: 600;
 
     &: hover {
       cursor: pointer;
-      color: ${theme ? '#1a1a1a' :'#ffffff'};
+      color: ${theme ? "#1a1a1a" : "#ffffff"};
     }
   `,
 };
-
