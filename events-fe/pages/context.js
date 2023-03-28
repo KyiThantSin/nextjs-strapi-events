@@ -13,29 +13,26 @@ function Context({ children }) {
   // console.log(theme)
 
   //login
-  const Login = async (identifier, password) => {
-    console.log(identifier, password);
-    try {
-      const res = await fetch(`${NEXT_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier,
-          password,
-        }),
-      });
-      console.log(res);
-      const data = await res.json();
-      console.log("data", data);
-      if (res.ok) {
-        setUser(data?.user);
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
+  const Login = async ({ email: identifier, password }) => {
+    // Strapi uses 'identifier' as an user/email
+    const res = await fetch(`${NEXT_URL}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "json/application",
+      },
+      body: JSON.stringify({
+        identifier,
+        password,
+      }),
+    });
+ 
+    const data = await res.json();
+    console.log("data in authcontext", data);
+    if (res.ok) {
+      setUser(data.user);
+    } else {
+      setError(data.error);
+      // setError(null);
     }
   };
 

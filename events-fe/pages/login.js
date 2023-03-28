@@ -22,7 +22,7 @@ const login = () => {
     e.preventDefault();
     if(email && password){
       console.log("this",email,password)
-      Login(email,password)
+      Login({email,password})
     }
   }
   return (
