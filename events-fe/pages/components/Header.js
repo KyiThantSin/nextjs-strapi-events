@@ -15,7 +15,7 @@ const Header = () => {
           Vamos
         </Link>
       </span>
-      <span>
+      <span css={styles.linksContainer}>
         {/* dark mode controller */}
         {contextValue.theme ? (
           <RiMoonClearFill
@@ -34,6 +34,9 @@ const Header = () => {
         <Link href="/events/addPost" css={styles.linkStyle(contextValue.theme)} className="ms-2">
           Add Events
         </Link>
+        <Link href="/login" css={styles.linkStyle(contextValue.theme)} className="ms-2">
+          Login
+        </Link>
       </span>
     </div>
   );
@@ -49,6 +52,11 @@ const styles = {
     justify-content: space-between;
     border-bottom: 0.5px solid grey;
     padding: 5px;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      height: auto;
+    }
   `,
   linkStyle: (theme) =>  css`
     text-decoration: none;
@@ -62,3 +70,4 @@ const styles = {
     }
   `,
 };
+

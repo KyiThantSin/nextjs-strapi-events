@@ -1,6 +1,6 @@
 import { API_URL } from "@/configs/index";
 
-export default async (res, req) => {
+export default async (req, res) => {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
     const strapiRes = await fetch(`${API_URL}/auth/local`, {
@@ -25,7 +25,7 @@ export default async (res, req) => {
         .json({ message: data.message[0]?.message[0]?.message });
     }
   } else {
-    res.setHeader("Allow", ["POST"]);
+    //res.setHeader("Allow", ["POST"]);
     res.status(405).json({ message: `Method ${req.method} not allowed` });
   }
 };

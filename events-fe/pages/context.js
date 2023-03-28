@@ -13,30 +13,37 @@ function Context({ children }) {
   // console.log(theme)
 
   //login
-  const login = async ({ email: identifier, password }) => {
+  const Login = async (identifier, password) => {
     console.log(identifier, password);
-    const res = await fetch(`${NEXT_URL}/api/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        identifier,
-        password,
-      }),
-    });
-    const data = await res.json();
-    console.log("data", data);
-    if (res.ok) {
-      setUser(data.user);
-    } else {
-      setError(data.message);
+    try {
+      const res = await fetch(`${NEXT_URL}/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier,
+          password,
+        }),
+      });
+      console.log(res);
+      const data = await res.json();
+      console.log("data", data);
+      if (res.ok) {
+        setUser(data?.user);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
+
   //log out
   const logOut = async () => {
     console.log("log out");
   };
+
   return (
     <ContextValue.Provider
       value={{
@@ -44,9 +51,9 @@ function Context({ children }) {
         setTheme,
         eventLists,
         setEventLists,
+        Login,
         user,
         error,
-        login,
       }}>
       <div css={styles.container(theme)}>{children}</div>
     </ContextValue.Provider>
