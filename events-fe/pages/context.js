@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { NEXT_URL } from "../configs";
-const { useState, createContext } = require("react");
+import { API_URL, NEXT_URL } from "../configs";
+const { useState, createContext, useEffect } = require("react");
 
 export const ContextValue = createContext(null);
 
@@ -11,6 +11,10 @@ function Context({ children }) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   // console.log(theme)
+
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
 
   //login
   const Login = async ({ email: identifier, password }) => {
@@ -25,7 +29,7 @@ function Context({ children }) {
         password,
       }),
     });
- 
+
     const data = await res.json();
     console.log("data in authcontext", data);
     if (res.ok) {
@@ -39,6 +43,18 @@ function Context({ children }) {
   //log out
   const logOut = async () => {
     console.log("log out");
+  };
+
+  //check if user is logged in
+  const checkUserLoggedIn = async (user) => {
+    const res = await fetch(`${NEXT_URL}/api/user`);
+    const data = await res.json();
+
+    if (res.ok) {
+      setUser(data.user);
+    } else {
+      setUser(null);
+    }
   };
 
   return (
