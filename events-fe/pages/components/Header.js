@@ -9,6 +9,7 @@ import { Button } from "reactstrap";
 const Header = () => {
   const contextValue = useContext(ContextValue);
   //console.log(contextValue.theme);
+  console.log(contextValue.user);
   return (
     <div css={styles.navbar(contextValue.theme)}>
       <span>
@@ -41,17 +42,21 @@ const Header = () => {
           className="ms-2">
           Add Events
         </Link>
-        {contextValue?.user ? (
+        {contextValue.user ? (
+          <Button
+            color="primary"
+            outline
+            className="ms-2"
+            onClick={() => contextValue.logOut()}>
+            Log Out
+          </Button>
+        ) : (
           <Link
             href="/login"
             css={styles.linkStyle(contextValue.theme)}
             className="ms-2">
             Login
           </Link>
-        ) : (
-          <Button color="primary" outline className="ms-2" onClick={() => contextValue.logOut()}>
-            Log Out
-          </Button>
         )}
       </span>
     </div>

@@ -1,7 +1,8 @@
 import { API_URL } from "@/configs/index";
+import cookie from 'cookie'
 
 export default async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   // const { identifier, password } = req.body;
   // console.log({ identifier });
   // const body = JSON.stringify({
@@ -19,10 +20,20 @@ export default async (req, res) => {
     });
  
     const data = await strapiRes.json();
-    console.log({ data });
-    // res.json(data);
+    //console.log({ data });
     if (data.data !== null) {
-      //set cookie
+      // Set Cookie
+      console.log("api",data)
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('token', data.jwt, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          maxAge: 60 * 60 * 24 * 7, // 1 week
+          sameSite: 'strict',
+          path: '/',
+        })
+      )
       res.status(200).json({ user: data.user });
     } else {
       res

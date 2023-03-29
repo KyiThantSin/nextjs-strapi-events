@@ -63,7 +63,7 @@ const EditPost = ({ editModal, setEditModal }) => {
     let dateFormat = `${format[2]}-${format[1]}-${format[0]}`;
     return dateFormat;
   };
-  console.log("imageUrl",imageUrl)
+  //console.log("imageUrl",imageUrl)
   const onSubmit = async (e) => {
     e.preventDefault()
     if (check) {
