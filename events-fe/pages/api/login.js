@@ -20,7 +20,7 @@ export default async (req, res) => {
     });
  
     const data = await strapiRes.json();
-    //console.log({ data });
+    console.log( "data",data );
     if (data.data !== null) {
       // Set Cookie
       console.log("api",data)

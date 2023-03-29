@@ -36,12 +36,17 @@ const Header = () => {
           className="ms-3">
           Events
         </Link>
-        <Link
-          href="/events/addPost"
-          css={styles.linkStyle(contextValue.theme)}
-          className="ms-2">
-          Add Events
-        </Link>
+        {
+          //only admin can access
+          contextValue?.user && (
+            <Link
+              href="/events/addPost"
+              css={styles.linkStyle(contextValue.theme)}
+              className="ms-2">
+              Add Events
+            </Link>
+          )
+        }
         {contextValue.user ? (
           <Button
             color="primary"
