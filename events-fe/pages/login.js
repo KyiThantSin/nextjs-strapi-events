@@ -87,6 +87,8 @@ const styles = {
     display: flex;
     margin-top: 6vh;
     margin-bottom: 5vh;
+    height: 78vh;
+    max-height:90%;
     flex-direction: column;
     justify-content: center;
     align-items: center;

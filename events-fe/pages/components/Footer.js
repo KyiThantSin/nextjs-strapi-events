@@ -16,6 +16,7 @@ const styles = {
     justify-content:center;
     text-align:center;
     font-size: 1rem;
+    padding:20px;
     margin-bottom:1vh;
   `
 };
