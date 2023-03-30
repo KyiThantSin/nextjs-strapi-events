@@ -2,14 +2,13 @@ import { API_URL } from "@/configs/index";
 import cookie from 'cookie'
 
 export default async (req, res) => {
-  //console.log(req.body);
-  // const { identifier, password } = req.body;
-  // console.log({ identifier });
-  // const body = JSON.stringify({
-  //   identifier,
-  //   password,
-  // });
-  // console.log({ body });
+  /*console.log(req.body);
+   const { identifier, password } = req.body;
+   console.log({ identifier });
+   const body = JSON.stringify({
+   identifier,
+   password,
+  }); */
   if (req.method === "POST") {
     const strapiRes = await fetch(`${API_URL}/api/auth/local`, {
       method: "POST",
@@ -37,7 +36,6 @@ export default async (req, res) => {
     } else {
       res
         .status(data.error.status)
-        // .json({ message: data.message[0].messages[0].message });
         .json({ error: data.error.message });
     }
   } else {

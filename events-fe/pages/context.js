@@ -1,11 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useRouter } from "next/router";
 import { API_URL, NEXT_URL } from "../configs";
 const { useState, createContext, useEffect } = require("react");
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const ContextValue = createContext(null);
 
 function Context({ children }) {
+  const router = useRouter();
   const [theme, setTheme] = useState(true);
   const [eventLists, setEventLists] = useState(null);
   const [user, setUser] = useState(null);
@@ -16,7 +20,7 @@ function Context({ children }) {
     checkUserLoggedIn();
   }, []);
 
-  //login
+  //login user
   const Login = async ({ email: identifier, password }) => {
     // Strapi uses 'identifier' as an user/email
     const res = await fetch(`${NEXT_URL}/api/login`, {
@@ -33,21 +37,50 @@ function Context({ children }) {
     //console.log("data in authcontext", data);
     if (res.ok) {
       setUser(data.user);
+      toast("🦄 Welcome back!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/");
     } else {
       setError(data.error);
     }
   };
 
-  //log out
+  //logout user
   const logOut = async () => {
-    console.log("log out");
+    const res = await fetch(`${NEXT_URL}/api/logout`, {
+      method: "POST",
+    });
+
+    if (res.ok) {
+      setUser(null);
+      toast("Successfully Logged out!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/");
+    }
+    //console.log("log out");
   };
 
   //check if user is logged in
   const checkUserLoggedIn = async (user) => {
     const res = await fetch(`${NEXT_URL}/api/user`);
     const data = await res.json();
-    console.log("user",data)
+    console.log("user", data);
     if (res.ok) {
       setUser(data.user);
     } else {
@@ -67,6 +100,18 @@ function Context({ children }) {
         user,
         error,
       }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div css={styles.container(theme)}>{children}</div>
     </ContextValue.Provider>
   );
