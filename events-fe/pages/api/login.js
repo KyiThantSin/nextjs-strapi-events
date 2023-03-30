@@ -20,10 +20,9 @@ export default async (req, res) => {
     });
  
     const data = await strapiRes.json();
-    console.log( "data",data );
+    //console.log( "data",data.jwt );
     if (data.data !== null) {
       // Set Cookie
-      console.log("api",data)
       res.setHeader(
         'Set-Cookie',
         cookie.serialize('token', data.jwt, {

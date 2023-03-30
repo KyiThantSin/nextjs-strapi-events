@@ -29,14 +29,12 @@ function Context({ children }) {
         password,
       }),
     });
-
     const data = await res.json();
-    console.log("data in authcontext", data);
+    //console.log("data in authcontext", data);
     if (res.ok) {
       setUser(data.user);
     } else {
       setError(data.error);
-      // setError(null);
     }
   };
 
@@ -49,7 +47,7 @@ function Context({ children }) {
   const checkUserLoggedIn = async (user) => {
     const res = await fetch(`${NEXT_URL}/api/user`);
     const data = await res.json();
-
+    console.log("user",data)
     if (res.ok) {
       setUser(data.user);
     } else {
