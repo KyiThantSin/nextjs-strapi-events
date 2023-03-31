@@ -22,6 +22,7 @@ const EditPost = ({ editModal, setEditModal }) => {
   const [address, setAddress] = useState(editModal?.data?.address);
   const [performers, setPerformers] = useState(editModal?.data?.performers);
   const [desc, setDesc] = useState(editModal?.data?.description);
+  const [time, setTime] = useState(editModal?.data?.time);
   const [imageUrl, setImageUrl] = useState(editModal?.data?.url)
   const check = Boolean(name && address && startDate && performers);
 
@@ -74,7 +75,7 @@ const EditPost = ({ editModal, setEditModal }) => {
         address: address,
         performers: performers,
         date: editModal?.data?.date ? editModal?.data?.date : formatDate(startDate),
-        time: editModal?.data?.time,
+        time: time,
         description: desc,
         url: imageUrl ? imageUrl : editModal?.data?.url
       }
@@ -245,10 +246,18 @@ const EditPost = ({ editModal, setEditModal }) => {
                 name="description"
                 onChange={(e) => setDesc(e.target.value)}
                 defaultValue={editModal?.data?.description}
-                // defaultValue={editModal?.data?.description}
               />
               <br />
-              <label htmlFor="url">Image</label>
+              <label htmlFor="description">Time</label>
+              <br />
+              <input
+                className="mt-2"
+                id="time"
+                name="time"
+                onChange={(e) => setTime(e.target.value)}
+                defaultValue={editModal?.data?.time}
+              />
+            {/* <label htmlFor="url">Image</label>
               <br />
               <input
                 type="file"
@@ -257,9 +266,7 @@ const EditPost = ({ editModal, setEditModal }) => {
                 name="url"
                 accept="image/*"
                 onChange={(e) => imageHandler(e.target.files[0])}
-                //defaultValue={newEvent?.url}
-                // defaultValue={editModal?.data?.url.data.attributes.url}
-              />
+              /> */}
             </Col>
           </Row>
           {alert && (

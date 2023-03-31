@@ -23,6 +23,7 @@ const addPost = () => {
   const [address, setAddress] = useState();
   const [performers, setPerformers] = useState();
   const [desc, setDesc] = useState();
+  const [time, setTime] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [newEvent, setNewEvent] = useState();
 
@@ -50,7 +51,9 @@ const addPost = () => {
 
   const formatDate = (value) => {
     let format = value.toLocaleDateString().split("/");
-    let dateFormat = `${format[2]}-${format[0].length > 1 ? format[0] : '0'+format[0]}-${format[1]}`;
+    let dateFormat = `${format[2]}-${
+      format[0].length > 1 ? format[0] : "0" + format[0]
+    }-${format[1]}`;
     return dateFormat;
   };
 
@@ -66,16 +69,16 @@ const addPost = () => {
   //   const result = await response.json();
   //   setImageUrl({ data: { attributes: { url: result[0].url } } });
   // };
-  console.log("new", {
+  /*console.log("new", {
     name: name,
     venue: venue,
     address: address,
     performers: performers,
     date: formatDate(startDate),
-    time:'',
+    time: time,
     description: desc,
     url: { data: { attributes: { url: "" } } },
-  })
+  })*/
   const onSubmit = async () => {
     setNewEvent({
       name: name,
@@ -84,6 +87,7 @@ const addPost = () => {
       performers: performers,
       date: formatDate(startDate),
       description: desc,
+      time: time,
       url: { data: { attributes: { url: "" } } },
     });
     if (newEvent) {
@@ -175,7 +179,7 @@ const addPost = () => {
                 Address <span>*</span>{" "}
               </label>
               <br />
-              <textarea
+              <input
                 type="text"
                 id="address"
                 name="address"
@@ -184,8 +188,15 @@ const addPost = () => {
                 required
               />
               <br />
+              <label htmlFor="address">Time </label>
+              <input
+                type="text"
+                id="time"
+                name="time"
+                className="mt-2"
+                onChange={(e) => setTime(e.target.value)}
+              />
             </Col>
-
             <Col className="col-md-6 col-12">
               <div>
                 <label htmlFor="date">
