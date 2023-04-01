@@ -8,13 +8,15 @@ import Layout from "./components/Layout";
 import { ContextValue } from "./context";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Link from "next/link";
 
 const login = () => {
-  const { Login, error } = useContext(ContextValue);
+  const { error } = useContext(ContextValue);
   const [email, setEmail] = useState();
+  const [name, setName] = useState();
   const [password, setPassword] = useState();
+  const [confirmPw, setConfirmPw] = useState();
   const [open, setOpen] = useState(false);
+  const [subOpen, setSubOpen] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -24,11 +26,12 @@ const login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email && password) {
+    if ( confirmPw !== password) {
+      toast.warn("Passwords do not match");
       console.log("this", email, password);
-      Login({ email, password });
     }
   };
+
   return (
     <Layout>
       <ToastContainer
@@ -44,9 +47,16 @@ const login = () => {
         theme="light"
       />
       <div css={styles.container}>
-        <h3>Hello Again!</h3>
-        <span>Welcome back, you've been missed.</span>
-        <form>
+        <h3>Register Here</h3>
+        <form onSubmit={handleSubmit}>
+          <div css={styles.box}>
+            <label htmlFor="name">Username</label>
+            <input
+              type="name"
+              required
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div css={styles.box}>
             <label htmlFor="email">Email</label>
             <input
@@ -73,18 +83,29 @@ const login = () => {
               </span>
             </div>
           </div>
-          <Button className="mb-5 mt-4" color="primary" onClick={handleSubmit}>
-            Login
+          <div css={styles.box}>
+            <label htmlFor="password">Confirm Password</label>
+            <div class="password-input-container">
+              <input
+                type={subOpen ? "text" : "password"}
+                required
+                name='confirm-password'
+                id="confirmPassword"
+                onChange={(e) => setConfirmPw(e.target.value)}
+              />
+              <span class="password-icon">
+                {open ? (
+                  <IoEyeOutline size={20} onClick={() => setSubOpen(false)} />
+                ) : (
+                  <RiEyeCloseLine size={20} onClick={() => setSubOpen(true)} />
+                )}
+              </span>
+            </div>
+          </div>
+          <Button className="mb-5 mt-4" color="primary" type="submit">
+            Register
           </Button>
         </form>
-        <div>
-          <b>
-            Don't have an account?
-            <span>
-              <Link href="/register"> Register</Link>
-            </span>
-          </b>
-        </div>
       </div>
     </Layout>
   );
