@@ -10,9 +10,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const login = () => {
-  const { error } = useContext(ContextValue);
+  const { Register, error } = useContext(ContextValue);
+  console.log(error)
   const [email, setEmail] = useState();
-  const [name, setName] = useState();
+  const [username, setName] = useState();
   const [password, setPassword] = useState();
   const [confirmPw, setConfirmPw] = useState();
   const [open, setOpen] = useState(false);
@@ -28,8 +29,9 @@ const login = () => {
     e.preventDefault();
     if ( confirmPw !== password) {
       toast.warn("Passwords do not match");
-      console.log("this", email, password);
     }
+    console.log
+    Register({username,email,password})
   };
 
   return (
@@ -94,7 +96,7 @@ const login = () => {
                 onChange={(e) => setConfirmPw(e.target.value)}
               />
               <span class="password-icon">
-                {open ? (
+                {subOpen ? (
                   <IoEyeOutline size={20} onClick={() => setSubOpen(false)} />
                 ) : (
                   <RiEyeCloseLine size={20} onClick={() => setSubOpen(true)} />

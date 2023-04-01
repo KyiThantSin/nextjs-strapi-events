@@ -88,6 +88,39 @@ function Context({ children }) {
     }
   };
 
+  //register user
+  const Register = async ({ username, email, password }) => {
+    const res = await fetch(`${NEXT_URL}/api/register`, {
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUser(data.user);
+      toast("🦄 Successfully created!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/");
+    } else {
+      setError(data.message);
+      setError(null);
+    }
+  };
+
   return (
     <ContextValue.Provider
       value={{
@@ -97,6 +130,7 @@ function Context({ children }) {
         setEventLists,
         Login,
         logOut,
+        Register,
         user,
         error,
       }}>
