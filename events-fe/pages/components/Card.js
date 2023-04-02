@@ -10,16 +10,16 @@ export const Card = ({ data, id }) => {
   return (
     <Row css={styles.container}>
       <Col className="col-lg-3 col-12 col-md-12">
-      { data?.url.data?.attributes.url? 
+      { data?.url?.data?.attributes.url? 
       ( <img
-          src={data?.url.data?.attributes.url}
+          src={data?.url?.data?.attributes.url}
           alt={ data?.slug ? data.slug : data?.date}
           width={300}
           height={200}
         /> ) : (
           <Image 
           src={defaultImg}
-          alt={data.slug}
+          alt={id}
           width={300}
           height={200}
           /> )
@@ -27,7 +27,7 @@ export const Card = ({ data, id }) => {
       </Col>
       <Col className="col-lg-7 col-12 col-md-12 mt-3">
         <div css={styles.header}>
-          <h4>{data.name}</h4>
+          <h4>{data?.name}</h4>
           <Button color="warning" css={styles.btn}>
             <Link href={`/events/${id}`}>Details</Link>
           </Button>
@@ -38,7 +38,7 @@ export const Card = ({ data, id }) => {
             <b> Date : </b> {data?.date}{" "}
           </span>
           <span>
-            <b> Time : </b> {data.time}{" "}
+            <b> Time : </b> {data?.time}{" "}
           </span>
         </div>
         <p className="mt-2">
