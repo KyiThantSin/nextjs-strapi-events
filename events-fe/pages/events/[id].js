@@ -11,14 +11,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import defaultImg from "../../public/vector.png";
 import { useRouter } from "next/router";
-import EditPost from "pages/components/editPost";
+import EditPost from "../components/editPost";
 import { ComponentToPrint } from "pages/components/ComponentToPrint";
+import { parseCookies } from "@/helpers/index";
+import { ContextValue } from "pages/context";
 
-const Details = ({ event }) => {
+const Details = ({ event, token }) => {
+  const {user} = useContext(ContextValue)
+  console.log(user?.email)
   //console.log("item",event.data.data.id);
+  //console.log(token)
+  //console.log("events",event)
   const data = event.data.data.attributes;
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState({
@@ -35,6 +41,9 @@ const Details = ({ event }) => {
     console.log("selected-id", id);
     const res = await fetch(`${API_URL}/api/events/${id}`, {
       method: "DELETE",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
     });
     let data = await res.json();
     if (res.ok) {
@@ -89,6 +98,8 @@ const Details = ({ event }) => {
           <div css={styles.headerContainer}>
             <div>
               <h3>{data.name}</h3>
+              <b style={{color:"#F99721"}}>{data?.user.data?.attributes?.username}</b>
+              <br/><br />
               <ComponentToPrint ref={printInfo} />
             </div>
             <div css={styles.box}>
@@ -143,7 +154,8 @@ const Details = ({ event }) => {
               <Link href={"/"}> GO HOME </Link>
             </Button>
           </div>
-          <div className="m-2">
+          {user?.email === data?.user.data?.attributes?.email && (
+            <div className="m-2">
             <Button
               color="warning"
               onClick={() =>
@@ -161,6 +173,7 @@ const Details = ({ event }) => {
               <AiOutlineDelete size={20} className="mb-1" /> Delete
             </Button>
           </div>
+          )}
         </div>
         {/* delete modal */}
         <Modal isOpen={modal} toggle={setModal} backdrop={modal}>
@@ -187,7 +200,7 @@ const Details = ({ event }) => {
           </div>
         </Modal>
         {editModal && (
-          <EditPost editModal={editModal} setEditModal={setEditModal} />
+          <EditPost editModal={editModal} setEditModal={setEditModal} token={token} />
         )}
       </>
     </Layout>
@@ -198,11 +211,13 @@ export default Details;
 
 export async function getServerSideProps({ params: { id }, req }) {
   // const id = context.params.id;
-  console.log("req", req.headers.cookie);
-  let res = await fetch(`${API_URL}/api/events/${id}?populate=url`);
+  //console.log("req", req.headers.cookie);
+  let res = await fetch(`${API_URL}/api/events/${id}?populate=url,user`);
   let data = await res.json();
+  const {token} = parseCookies(req)
+  //console.log("token",token)
   return {
-    props: { event: { data } },
+    props: { event: { data }, token },
   };
 }
 

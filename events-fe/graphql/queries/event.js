@@ -13,6 +13,13 @@ export const GET_EVENT = gql`
           time
           performers
           description
+          user{
+            data{
+              attributes{
+                username
+              }
+            }
+          }
           url {
             data {
               id

@@ -12,7 +12,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 
-const EditPost = ({ editModal, setEditModal }) => {
+const EditPost = ({ editModal, setEditModal , token}) => {
   //console.log(editModal);
   const router = useRouter();
   const [alert, setAlert] = useState();
@@ -84,11 +84,12 @@ const EditPost = ({ editModal, setEditModal }) => {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ data: updatedEvent }),
       });
       if (res.ok) {
-        console.log("new", updatedEvent);
+        //console.log("new", updatedEvent);
         toast("🦄 Updated Successfully!", {
           position: "top-right",
           autoClose: 5000,
@@ -103,6 +104,10 @@ const EditPost = ({ editModal, setEditModal }) => {
           router.push("/");
         }, 1000);
       } else {
+        if(res.status === 403 || res.status === 401){
+          toast.error("No token included!");
+          return
+        }{
         toast.warn("Oops...something went wrong!", {
           position: "top-right",
           autoClose: 5000,
@@ -113,14 +118,14 @@ const EditPost = ({ editModal, setEditModal }) => {
           progress: undefined,
           theme: "light",
         });
-      }
+      }}
     }
   };
 
   return (
     <Modal isOpen={editModal.isOpen} size="lg">
       <Row className="mt-4">
-        <Col className="col-md-10">
+        <Col className="col-md-10 col-xs-10">
           <h5
             style={{
               textAlign: "center",
@@ -130,7 +135,7 @@ const EditPost = ({ editModal, setEditModal }) => {
             Edit {editModal?.data?.name} Event
           </h5>
         </Col>
-        <Col className="col-md-2">
+        <Col className="col-md-2 col-xs-2">
           <IoMdClose
             size={25}
             onClick={() =>
@@ -158,7 +163,7 @@ const EditPost = ({ editModal, setEditModal }) => {
       {/* Same as */}
       <ToastContainer />
       <div css={styles.container}>
-        <form>
+        <form style={{margin:"25px"}}>
           <Row>
             <Col className="col-md-6 col-12">
               <label htmlFor="name">
@@ -310,7 +315,7 @@ const styles = {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5vh;
+    margin-top: 2vh;
     span {
       color: red;
     }

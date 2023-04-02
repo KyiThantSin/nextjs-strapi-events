@@ -2,32 +2,34 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
 import { Button, Col, Row } from "reactstrap";
-import defaultImg from '../../public/vector.png'
+import defaultImg from "../../public/vector.png";
 import Image from "next/image";
 
 export const Card = ({ data, id }) => {
-  // console.log(data)
+  //console.log(data);
   return (
     <Row css={styles.container}>
       <Col className="col-lg-3 col-12 col-md-12">
-      { data?.url.data?.attributes.url? 
-      ( <img
-          src={data?.url.data?.attributes.url}
-          alt={ data?.slug ? data.slug : data?.date}
-          width={300}
-          height={200}
-        /> ) : (
-          <Image 
-          src={defaultImg}
-          alt={data.slug}
-          width={300}
-          height={200}
-          /> )
-      }
+        {data?.url?.data?.attributes.url ? (
+          <img
+            src={data?.url?.data?.attributes.url}
+            alt={data?.slug ? data.slug : data?.date}
+            width={300}
+            height={200}
+          />
+        ) : (
+          <Image src={defaultImg} alt={id} width={300} height={200} />
+        )}
       </Col>
       <Col className="col-lg-7 col-12 col-md-12 mt-3">
         <div css={styles.header}>
-          <h4>{data.name}</h4>
+          <div>
+            <h4>{data?.name}</h4>
+            <b style={{ color: "#F99721" }}>
+              {data?.user?.data?.attributes?.username}
+            </b>
+          </div>
+
           <Button color="warning" css={styles.btn}>
             <Link href={`/events/${id}`}>Details</Link>
           </Button>
@@ -38,7 +40,7 @@ export const Card = ({ data, id }) => {
             <b> Date : </b> {data?.date}{" "}
           </span>
           <span>
-            <b> Time : </b> {data.time}{" "}
+            <b> Time : </b> {data?.time}{" "}
           </span>
         </div>
         <p className="mt-2">

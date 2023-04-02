@@ -14,7 +14,7 @@ function Context({ children }) {
   const [eventLists, setEventLists] = useState(null);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  // console.log(theme)
+  //console.log("user",user)
 
   useEffect(() => {
     checkUserLoggedIn();
@@ -80,11 +80,44 @@ function Context({ children }) {
   const checkUserLoggedIn = async (user) => {
     const res = await fetch(`${NEXT_URL}/api/user`);
     const data = await res.json();
-    console.log("user", data);
+   // console.log("user", data);
     if (res.ok) {
       setUser(data.user);
     } else {
       setUser(null);
+    }
+  };
+
+  //register user
+  const Register = async ({ username, email, password }) => {
+    const res = await fetch(`${NEXT_URL}/api/register`, {
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUser(data.user);
+      toast("🦄 Successfully created!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/");
+    } else {
+      setError(data.message);
+      setError(null);
     }
   };
 
@@ -97,6 +130,7 @@ function Context({ children }) {
         setEventLists,
         Login,
         logOut,
+        Register,
         user,
         error,
       }}>
