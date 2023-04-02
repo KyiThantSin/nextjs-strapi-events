@@ -11,14 +11,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import defaultImg from "../../public/vector.png";
 import { useRouter } from "next/router";
 import EditPost from "../components/editPost";
 import { ComponentToPrint } from "pages/components/ComponentToPrint";
 import { parseCookies } from "@/helpers/index";
+import { ContextValue } from "pages/context";
 
 const Details = ({ event, token }) => {
+  const {user} = useContext(ContextValue)
+  console.log(user?.email)
   //console.log("item",event.data.data.id);
   //console.log(token)
   //console.log("events",event)
@@ -151,7 +154,8 @@ const Details = ({ event, token }) => {
               <Link href={"/"}> GO HOME </Link>
             </Button>
           </div>
-          <div className="m-2">
+          {user?.email === data?.user.data?.attributes?.email && (
+            <div className="m-2">
             <Button
               color="warning"
               onClick={() =>
@@ -169,6 +173,7 @@ const Details = ({ event, token }) => {
               <AiOutlineDelete size={20} className="mb-1" /> Delete
             </Button>
           </div>
+          )}
         </div>
         {/* delete modal */}
         <Modal isOpen={modal} toggle={setModal} backdrop={modal}>

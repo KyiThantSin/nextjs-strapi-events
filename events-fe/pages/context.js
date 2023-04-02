@@ -14,7 +14,7 @@ function Context({ children }) {
   const [eventLists, setEventLists] = useState(null);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  // console.log(theme)
+  //console.log("user",user)
 
   useEffect(() => {
     checkUserLoggedIn();
