@@ -56,7 +56,7 @@ export default function Home({ events }) {
 }
 
 export async function getServerSideProps() {
-  let res = await fetch(`${API_URL}/api/events?populate=url`);
+  let res = await fetch(`${API_URL}/api/events?populate=url,user`);
   let data = await res.json();
 
   return {

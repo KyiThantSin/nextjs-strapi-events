@@ -21,6 +21,7 @@ import { parseCookies } from "@/helpers/index";
 const Details = ({ event, token }) => {
   //console.log("item",event.data.data.id);
   //console.log(token)
+  //console.log("events",event)
   const data = event.data.data.attributes;
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState({
@@ -94,6 +95,8 @@ const Details = ({ event, token }) => {
           <div css={styles.headerContainer}>
             <div>
               <h3>{data.name}</h3>
+              <b style={{color:"#F99721"}}>{data?.user.data?.attributes?.username}</b>
+              <br/><br />
               <ComponentToPrint ref={printInfo} />
             </div>
             <div css={styles.box}>
@@ -204,7 +207,7 @@ export default Details;
 export async function getServerSideProps({ params: { id }, req }) {
   // const id = context.params.id;
   //console.log("req", req.headers.cookie);
-  let res = await fetch(`${API_URL}/api/events/${id}?populate=url`);
+  let res = await fetch(`${API_URL}/api/events/${id}?populate=url,user`);
   let data = await res.json();
   const {token} = parseCookies(req)
   //console.log("token",token)
