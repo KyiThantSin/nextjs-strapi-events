@@ -15,7 +15,7 @@ export default function Events() {
   const [page, setPage] = useState(1);
   const [events, setEvents] = useState(eventLists?.data);
   // console.log(userInput)
-  console.log("event-data",eventLists)
+  //console.log("event-data",eventLists)
   // console.log("this",events)
   useEffect(()=>{
     const fetchData = async () => {

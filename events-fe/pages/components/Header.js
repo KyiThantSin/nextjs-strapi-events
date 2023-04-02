@@ -9,7 +9,7 @@ import { Button } from "reactstrap";
 const Header = () => {
   const contextValue = useContext(ContextValue);
   //console.log(contextValue.theme);
-  console.log(contextValue.user);
+  //console.log(contextValue.user);
   return (
     <div css={styles.navbar(contextValue.theme)}>
       <span>
@@ -39,12 +39,20 @@ const Header = () => {
         {
           //only admin can access
           contextValue?.user && (
+            <>
             <Link
               href="/events/addPost"
               css={styles.linkStyle(contextValue.theme)}
               className="ms-2">
               Add Events
             </Link>
+             <Link
+             href="/dashboard"
+             css={styles.linkStyle(contextValue.theme)}
+             className="ms-3">
+             Dashboard
+           </Link>
+           </>
           )
         }
         {contextValue.user ? (
