@@ -125,7 +125,7 @@ const EditPost = ({ editModal, setEditModal , token}) => {
   return (
     <Modal isOpen={editModal.isOpen} size="lg">
       <Row className="mt-4">
-        <Col className="col-md-10">
+        <Col className="col-md-10 col-xs-10">
           <h5
             style={{
               textAlign: "center",
@@ -135,7 +135,7 @@ const EditPost = ({ editModal, setEditModal , token}) => {
             Edit {editModal?.data?.name} Event
           </h5>
         </Col>
-        <Col className="col-md-2">
+        <Col className="col-md-2 col-xs-2">
           <IoMdClose
             size={25}
             onClick={() =>
@@ -163,7 +163,7 @@ const EditPost = ({ editModal, setEditModal , token}) => {
       {/* Same as */}
       <ToastContainer />
       <div css={styles.container}>
-        <form>
+        <form style={{margin:"25px"}}>
           <Row>
             <Col className="col-md-6 col-12">
               <label htmlFor="name">
@@ -315,7 +315,7 @@ const styles = {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5vh;
+    margin-top: 2vh;
     span {
       color: red;
     }

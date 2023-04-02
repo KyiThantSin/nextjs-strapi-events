@@ -8,8 +8,7 @@ import { Button } from "reactstrap";
 
 const Header = () => {
   const contextValue = useContext(ContextValue);
-  //console.log(contextValue.theme);
-  //console.log(contextValue.user);
+
   return (
     <div css={styles.navbar(contextValue.theme)}>
       <span>
@@ -40,21 +39,22 @@ const Header = () => {
           //only admin can access
           contextValue?.user && (
             <>
-            <Link
-              href="/events/addPost"
-              css={styles.linkStyle(contextValue.theme)}
-              className="ms-2">
-              Add Events
-            </Link>
-             <Link
-             href="/dashboard"
-             css={styles.linkStyle(contextValue.theme)}
-             className="ms-3">
-             Dashboard
-           </Link>
-           </>
+              <Link
+                href="/events/addPost"
+                css={styles.linkStyle(contextValue.theme)}
+                className="ms-2">
+                Create
+              </Link>
+              <Link
+                href="/dashboard"
+                css={styles.linkStyle(contextValue.theme)}
+                className="ms-3">
+                Dashboard
+              </Link>
+            </>
           )
         }
+        <span></span>
         {contextValue.user ? (
           <Button
             color="primary"
@@ -75,8 +75,8 @@ const Header = () => {
     </div>
   );
 };
-export default Header;
 
+export default Header;
 const styles = {
   navbar: (theme) => css`
     background-color: ${theme ? "#ffffff" : "#191919"};
@@ -98,9 +98,14 @@ const styles = {
     font-size: 1.2rem;
     font-weight: 600;
 
-    &: hover {
+    &:hover {
       cursor: pointer;
       color: ${theme ? "#1a1a1a" : "#ffffff"};
     }
+  `,
+  linksContainer: css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   `,
 };
