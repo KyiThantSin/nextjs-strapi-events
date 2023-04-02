@@ -12,8 +12,9 @@ import { CREATE_EVENT } from "graphql/mutations/event";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { ContextValue } from "pages/context";
+import { parseCookies } from "@/helpers/index";
 
-const addPost = () => {
+const addPost = ({token}) => {
   const router = useRouter();
   const [startDate, setStartDate] = useState(new Date());
   const [alert, setAlert] = useState(true);
@@ -96,6 +97,7 @@ const addPost = () => {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ data: newEvent }),
       });
@@ -115,6 +117,10 @@ const addPost = () => {
           router.push("/");
         }, 1000);
       } else {
+        if(res.status === 403 || res.status === 401){
+          toast.error("No token included!");
+          return
+        }else{
         toast.warn("Oops...something went wrong!", {
           position: "top-right",
           autoClose: 5000,
@@ -126,7 +132,7 @@ const addPost = () => {
           theme: "light",
         });
       }
-    }
+    }}
   };
 
   return (
@@ -264,6 +270,18 @@ const addPost = () => {
   );
 };
 export default addPost;
+
+//to get the token
+export async function getServerSideProps({req}){
+  //console.log('running')
+  const {token} = parseCookies(req)
+  //console.log("add-post",token)
+  return {
+    props: {
+      token
+    }
+  }
+}
 
 const styles = {
   container: (theme) => css`

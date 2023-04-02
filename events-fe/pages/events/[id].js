@@ -14,11 +14,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useRef } from "react";
 import defaultImg from "../../public/vector.png";
 import { useRouter } from "next/router";
-import EditPost from "pages/components/editPost";
+import EditPost from "../components/editPost";
 import { ComponentToPrint } from "pages/components/ComponentToPrint";
+import { parseCookies } from "@/helpers/index";
 
-const Details = ({ event }) => {
+const Details = ({ event, token }) => {
   //console.log("item",event.data.data.id);
+  //console.log(token)
   const data = event.data.data.attributes;
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState({
@@ -35,6 +37,9 @@ const Details = ({ event }) => {
     console.log("selected-id", id);
     const res = await fetch(`${API_URL}/api/events/${id}`, {
       method: "DELETE",
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
     });
     let data = await res.json();
     if (res.ok) {
@@ -187,7 +192,7 @@ const Details = ({ event }) => {
           </div>
         </Modal>
         {editModal && (
-          <EditPost editModal={editModal} setEditModal={setEditModal} />
+          <EditPost editModal={editModal} setEditModal={setEditModal} token={token} />
         )}
       </>
     </Layout>
@@ -198,11 +203,13 @@ export default Details;
 
 export async function getServerSideProps({ params: { id }, req }) {
   // const id = context.params.id;
-  console.log("req", req.headers.cookie);
+  //console.log("req", req.headers.cookie);
   let res = await fetch(`${API_URL}/api/events/${id}?populate=url`);
   let data = await res.json();
+  const {token} = parseCookies(req)
+  //console.log("token",token)
   return {
-    props: { event: { data } },
+    props: { event: { data }, token },
   };
 }
 

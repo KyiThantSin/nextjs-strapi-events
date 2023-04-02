@@ -12,7 +12,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 
-const EditPost = ({ editModal, setEditModal }) => {
+const EditPost = ({ editModal, setEditModal , token}) => {
   //console.log(editModal);
   const router = useRouter();
   const [alert, setAlert] = useState();
@@ -84,11 +84,12 @@ const EditPost = ({ editModal, setEditModal }) => {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ data: updatedEvent }),
       });
       if (res.ok) {
-        console.log("new", updatedEvent);
+        //console.log("new", updatedEvent);
         toast("🦄 Updated Successfully!", {
           position: "top-right",
           autoClose: 5000,
@@ -103,6 +104,10 @@ const EditPost = ({ editModal, setEditModal }) => {
           router.push("/");
         }, 1000);
       } else {
+        if(res.status === 403 || res.status === 401){
+          toast.error("No token included!");
+          return
+        }{
         toast.warn("Oops...something went wrong!", {
           position: "top-right",
           autoClose: 5000,
@@ -113,7 +118,7 @@ const EditPost = ({ editModal, setEditModal }) => {
           progress: undefined,
           theme: "light",
         });
-      }
+      }}
     }
   };
 
